@@ -5,13 +5,6 @@ env:
   # Test everything in Webpack 1 and 2
   - export WEBPACK_VERSION="2.1.0-beta"
   - export WEBPACK_VERSION="1"
-script:
-  # Run tests
-  - npm test
-  # Build all examples
-  - npm run build
-  - npm run build:customised
-  - npm run build:sections
 before_script:
   # Manually install Webpack 1 or 2
   - 'if [ "$WEBPACK_VERSION" ]; then npm install webpack@^$WEBPACK_VERSION; fi'

@@ -77,12 +77,8 @@
     "test:mocha": "cross-env NODE_ENV=test mocha --compilers js:babel-register 'src/**/*.spec.js' 'test/**/*.spec.js'",
     "test:watch": "npm run test:mocha -- --watch",
     "start": "bin/styleguidist.js server --config examples/basic/styleguide.config.js",
-    "start:customised": "bin/styleguidist.js server --config examples/customised/styleguide.config.js",
-    "start:sections": "bin/styleguidist.js server --config examples/sections/styleguide.config.js",
     "lint": "eslint src/ scripts/ bin/ examples/ loaders/ test/",
     "build": "bin/styleguidist.js build --config examples/basic/styleguide.config.js",
-    "build:customised": "bin/styleguidist.js build --config examples/customised/styleguide.config.js",
-    "build:sections": "bin/styleguidist.js build --config examples/sections/styleguide.config.js",
     "prepublish": "npm t"
   }
 }
