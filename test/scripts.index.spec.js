@@ -15,7 +15,7 @@ describe('scripts index', () => {
     const result = api.makeWebpackConfig('development');
     t.isOk(result);
     t.equal(result.output.filename, 'build/bundle.js');
-    t.equalTrue(result.cache);
+    t.isTrue(result.cache);
   });
 
   it('makeWebpackConfig should return production Webpack config', () => {
@@ -23,6 +23,6 @@ describe('scripts index', () => {
     const result = api.makeWebpackConfig('production');
     t.isOk(result);
     t.equal(result.output.filename, 'build/bundle.js');
-    t.equalFalse(result.cache);
+    t.isFalse(result.cache);
   });
 });

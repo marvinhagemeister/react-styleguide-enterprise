@@ -4,7 +4,7 @@ import getConfig from '../scripts/config';
 
 describe('scripts config', () => {
   it('should read a config file', () => {
-    const result = getConfig({ config: 'data/styleguide.config.js' });
+    const result = getConfig({ config: 'test/data/styleguide.config.js' });
     t.isOk(result);
     t.equal(result.title, 'React Style Guide Example');
   });

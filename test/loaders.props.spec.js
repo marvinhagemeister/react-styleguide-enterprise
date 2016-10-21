@@ -1,10 +1,11 @@
 import { assert as t } from 'chai';
 import { readFileSync } from 'fs';
+import path from 'path';
 import propsLoader from '../loaders/props.loader';
 
 describe('loaders-props', () => {
   it('should return valid, parsable JS', () => {
-    const file = 'components/Button.js';
+    const file = __dirname + '/components/Button/Button.js';
     const result = propsLoader.call({
       request: file,
       options: {
@@ -12,11 +13,11 @@ describe('loaders-props', () => {
       },
     }, readFileSync(file, 'utf8'));
     t.isOk(result);
-    t.notThrows(() => new Function(result), SyntaxError);  // eslint-disable-line no-new-func
+    t.doesNotThrow(() => new Function(result), SyntaxError);  // eslint-disable-line no-new-func
   });
 
   it('should extract doclets', () => {
-    const file = 'components/Placeholder.js';
+    const file = path.resolve(__dirname + '/components/Placeholder/Placeholder.js');
     const result = propsLoader.call({
       request: file,
       options: {
@@ -24,7 +25,7 @@ describe('loaders-props', () => {
       },
     }, readFileSync(file, 'utf8'));
     t.isOk(result);
-    t.notThrows(() => new Function(result), SyntaxError);  // eslint-disable-line no-new-func
-    t.equalTrue(result.includes('require("\\"examples!./examples.md\\"")'));
+    t.doesNotThrow(() => new Function(result), SyntaxError);  // eslint-disable-line no-new-func
+    t.isTrue(result.includes('require("\\"examples!./examples.md\\"")'));
   });
 });
