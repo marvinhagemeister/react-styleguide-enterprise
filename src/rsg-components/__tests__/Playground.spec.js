@@ -42,11 +42,12 @@ describe('Playground', () => {
 				code={code}
 				showCode={false}
 				evalInContext={noop}
+        onChange={noop}
 				/>
 		);
 
     expect(actual.node, 'to contain',
-			<Preview code={code} />
+			<Preview code={code} evalInContext={noop} />
 		);
   });
 });

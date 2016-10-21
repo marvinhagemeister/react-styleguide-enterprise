@@ -26,8 +26,8 @@ PlaygroundRenderer.propTypes = {
   code: PropTypes.string.isRequired,
   showCode: PropTypes.bool.isRequired,
   evalInContext: PropTypes.func.isRequired,
-  onChange: PropTypes.func.isRequired,
-  onCodeToggle: PropTypes.func.isRequired,
+  onChange: PropTypes.func,
+  onCodeToggle: PropTypes.func,
 };
 
 export default PlaygroundRenderer;
