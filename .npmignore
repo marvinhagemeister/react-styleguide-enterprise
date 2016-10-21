@@ -1,0 +1,11 @@
+.babelrc
+.editorconfig
+.eslintrc
+.gitignore
+.nvmrc
+.travis.yml
+yarn.lock
+test/
+node_modules/
+**/__tests__/*
+*.spec.js
