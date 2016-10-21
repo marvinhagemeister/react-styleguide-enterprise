@@ -11,29 +11,29 @@ const noop = () => {};
 const expect = unexpected.use(unexpectedReact);
 
 const section = {
-	name: 'Foo',
-	content: [
-		{
-			type: 'code',
-			content: '<button>OK</button>',
-			evalInContext: noop,
-		},
-		{
-			type: 'markdown',
-			content: 'Hello *world*!',
-		},
-	],
-	components: [],
+  name: 'Foo',
+  content: [
+    {
+      type: 'code',
+      content: '<button>OK</button>',
+      evalInContext: noop,
+    },
+    {
+      type: 'markdown',
+      content: 'Hello *world*!',
+    },
+  ],
+  components: [],
 };
 
 it('should render component renderer', () => {
-	const actual = shallow(
+  const actual = shallow(
 		<Section
 			section={section}
 		/>
 	);
 
-	expect(actual.node, 'to contain',
+  expect(actual.node, 'to contain',
 		<SectionRenderer
 			name={section.name}
 			content={<Examples examples={section.content} />}
@@ -43,7 +43,7 @@ it('should render component renderer', () => {
 });
 
 it('render should render component', () => {
-	const actual = shallow(
+  const actual = shallow(
 		<SectionRenderer
 			name={section.name}
 			content={<Examples examples={section.content} />}
@@ -51,13 +51,13 @@ it('render should render component', () => {
 		/>
 	);
 
-	expect(actual.node, 'to contain',
+  expect(actual.node, 'to contain',
 		<h1>{section.name}</h1>
 	);
-	expect(actual.node, 'to contain',
+  expect(actual.node, 'to contain',
 		<Examples examples={section.content} />
 	);
-	expect(actual.node, 'to contain',
+  expect(actual.node, 'to contain',
 		<Components components={[]} sections={[]} />
 	);
 });

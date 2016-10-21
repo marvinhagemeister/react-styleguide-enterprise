@@ -1,9 +1,6 @@
 {
-	"parser": "babel-eslint",
-	"extends": "tamia/react",
-	"globals": {
-		"expect": false,
-		"shallow": false,
-		"render": false
+	"extends": "eslint-config-sevenval/react",
+	"env": {
+		"node": true
 	}
 }

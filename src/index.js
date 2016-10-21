@@ -15,23 +15,23 @@ global.React = React;
 let codeKey = 0;
 
 function renderStyleguide() {
-	const styleguide = require('styleguide!index.js');
+  const styleguide = require('styleguide!index.js');
 
-	let components = processComponents(styleguide.components);
-	let sections = processSections(styleguide.sections || []);
-	let sidebar = true;
+  let components = processComponents(styleguide.components);
+  let sections = processSections(styleguide.sections || []);
+  let sidebar = true;
 
-	const targetComponentName = getComponentNameFromHash();
-	if (targetComponentName) {
-		components = [
-			...filterComponentsByExactName(components, targetComponentName),
-			...filterComponentsInSectionsByExactName(sections, targetComponentName),
-		];
-		sections = [];
-		sidebar = false;
-	}
+  const targetComponentName = getComponentNameFromHash();
+  if (targetComponentName) {
+    components = [
+      ...filterComponentsByExactName(components, targetComponentName),
+      ...filterComponentsInSectionsByExactName(sections, targetComponentName),
+    ];
+    sections = [];
+    sidebar = false;
+  }
 
-	ReactDOM.render(
+  ReactDOM.render(
 		<StyleGuide
 			codeKey={codeKey}
 			config={styleguide.config}
@@ -46,10 +46,10 @@ function renderStyleguide() {
 window.addEventListener('hashchange', renderStyleguide);
 
 if (module.hot) {
-	module.hot.accept('styleguide!index.js', () => {
-		codeKey += 1;
-		renderStyleguide();
-	});
+  module.hot.accept('styleguide!index.js', () => {
+    codeKey += 1;
+    renderStyleguide();
+  });
 }
 
 renderStyleguide();

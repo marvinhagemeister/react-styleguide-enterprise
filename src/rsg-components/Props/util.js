@@ -5,7 +5,7 @@
  * @returns {string}
  */
 export function unquote(string) {
-	return string.replace(/^["'](.*)["']$/, '$1');
+  return string.replace(/^["'](.*)["']$/, '$1');
 }
 
 /**
@@ -15,5 +15,5 @@ export function unquote(string) {
  * @returns {object}
  */
 export function getType(prop) {
-	return prop.flowType || prop.type;
+  return prop.flowType || prop.type;
 }

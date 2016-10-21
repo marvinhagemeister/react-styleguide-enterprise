@@ -1,5 +1,3 @@
-'use strict';
-
 const map = require('lodash/map');
 
 /**
@@ -9,16 +7,16 @@ const map = require('lodash/map');
  * @returns {string}
  */
 function toCode(values) {
-	if (Array.isArray(values)) {
-		return '[' +
-			values.join(',\n') +
-			']'
-		;
-	}
-	return '{' +
-		map(values, (value, key) => `'${key}': ${value}`).join(',\n') +
-		'}'
-	;
+  if (Array.isArray(values)) {
+    return '[' +
+      values.join(',\n') +
+      ']'
+      ;
+  }
+  return '{' +
+    map(values, (value, key) => `'${key}': ${value}`).join(',\n') +
+'}'
+    ;
 }
 
 /**
@@ -28,10 +26,10 @@ function toCode(values) {
  * @returns {string}
  */
 function requireIt(name) {
-	return 'require(' + JSON.stringify(name) + ')';
+  return 'require(' + JSON.stringify(name) + ')';
 }
 
 module.exports = {
-	toCode,
-	requireIt,
+  toCode,
+  requireIt,
 };

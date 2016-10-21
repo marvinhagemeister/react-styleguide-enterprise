@@ -9,54 +9,54 @@ import Wrapper from './Wrapper';
 // TODO: extract compiler to a separate module
 
 export default class Preview extends Component {
-	static propTypes = {
-		code: PropTypes.string.isRequired,
-		evalInContext: PropTypes.func.isRequired,
-	};
+  static propTypes = {
+    code: PropTypes.string.isRequired,
+    evalInContext: PropTypes.func.isRequired,
+  };
 
-	constructor() {
-		super();
-		this.state = {
-			error: null,
-		};
-		this.componentState = {};
-	}
+  constructor() {
+    super();
+    this.state = {
+      error: null,
+    };
+    this.componentState = {};
+  }
 
-	componentDidMount() {
-		this.executeCode();
-	}
+  componentDidMount() {
+    this.executeCode();
+  }
 
-	componentDidUpdate(prevProps) {
-		if (this.props.code !== prevProps.code) {
-			this.executeCode();
-		}
-	}
+  componentDidUpdate(prevProps) {
+    if (this.props.code !== prevProps.code) {
+      this.executeCode();
+    }
+  }
 
-	compileCode(code) {
-		return transform(code, {
-			presets: ['es2015', 'react', 'stage-0'],
-		}).code;
-	}
+  compileCode(code) {
+    return transform(code, {
+      presets: ['es2015', 'react', 'stage-0'],
+    }).code;
+  }
 
-	executeCode() {
-		ReactDOM.unmountComponentAtNode(this.mountNode);
+  executeCode() {
+    ReactDOM.unmountComponentAtNode(this.mountNode);
 
-		this.setState({
-			error: null,
-		});
+    this.setState({
+      error: null,
+    });
 
-		let { code } = this.props;
-		if (!code) {
-			return;
-		}
+    const { code } = this.props;
+    if (!code) {
+      return;
+    }
 
-		try {
-			const compiledCode = this.compileCode(this.props.code);
+    try {
+      const compiledCode = this.compileCode(this.props.code);
 
-			// Initiate state and set with the callback in the bottom component;
-			// Workaround for https://github.com/sapegin/react-styleguidist/issues/155 - missed props on first render
-			// when using initialState
-			const initCode = `
+      // Initiate state and set with the callback in the bottom component;
+      // Workaround for https://github.com/sapegin/react-styleguidist/issues/155 - missed props on first render
+      // when using initialState
+      const initCode = `
 				var React = {};  // React.createElement will throw on first load
 				var initialState = {};
 				try {
@@ -70,71 +70,70 @@ export default class Preview extends Component {
 				}
 			`;
 
-			// evalInContext returns a function which takes state, setState and a callback to handle the
-			// initial state and returns the evaluated code
-			const initial = this.props.evalInContext(initCode);
+      // evalInContext returns a function which takes state, setState and a callback to handle the
+      // initial state and returns the evaluated code
+      const initial = this.props.evalInContext(initCode);
 
-			// 1) setup initialState so that we don't get an error;
-			// 2) use require data or make other setup for the example component;
-			// 3) return the example component
-			const exampleComponentCode = `
+      // 1) setup initialState so that we don't get an error;
+      // 2) use require data or make other setup for the example component;
+      // 3) return the example component
+      const exampleComponentCode = `
 				var initialState = {};
 				return eval(${JSON.stringify(compiledCode)});
 			`;
 
-			const exampleComponent = this.props.evalInContext(exampleComponentCode);
+      const exampleComponent = this.props.evalInContext(exampleComponentCode);
 
-			// Wrap everything in a react component to leverage the state management of this component
-			class PreviewComponent extends Component { // eslint-disable-line react/no-multi-comp
-				constructor() {
-					super();
+      // Wrap everything in a react component to leverage the state management of this component
+      class PreviewComponent extends Component { // eslint-disable-line react/no-multi-comp
+        constructor() {
+          super();
 
-					const state = {};
-					const initialStateCB = (initialState) => {
-						Object.assign(state, initialState);
-					};
-					const setStateError = (partialState) => {
-						const err = 'Calling setState to setup the initial state is deprecated. Use\ninitialState = ';
-						Object.assign(state, { error: err + JSON.stringify(partialState) + ';' });
-					};
+          const state = {};
+          const initialStateCB = (initialState) => {
+            Object.assign(state, initialState);
+          };
+          const setStateError = (partialState) => {
+            const err = 'Calling setState to setup the initial state is deprecated. Use\ninitialState = ';
+            Object.assign(state, { error: err + JSON.stringify(partialState) + ';' });
+          };
 
-					initial({}, setStateError, initialStateCB);
-					this.state = state;
-				}
+          initial({}, setStateError, initialStateCB);
+          this.state = state;
+        }
 
-				render() {
-					const { error } = this.state;
-					if (error) {
-						return <PlaygroundError message={error} />;
-					}
+        render() {
+          const { error } = this.state;
+          if (error) {
+            return <PlaygroundError message={error} />;
+          }
 
-					return exampleComponent(this.state, this.setState.bind(this), null);
-				}
-			}
+          return exampleComponent(this.state, this.setState.bind(this), null);
+        }
+      }
 
-			const wrappedComponent = (
-				<Wrapper>
-					<PreviewComponent />
-				</Wrapper>
-			);
+      const wrappedComponent = (
+        <Wrapper>
+          <PreviewComponent />
+        </Wrapper>
+      );
 
-			ReactDOM.render(wrappedComponent, this.mountNode);
-		}
-		catch (err) {
-			ReactDOM.unmountComponentAtNode(this.mountNode);
-			this.setState({
-				error: err.toString(),
-			});
-		}
-	}
+      ReactDOM.render(wrappedComponent, this.mountNode);
+    } catch (err) {
+      ReactDOM.unmountComponentAtNode(this.mountNode);
+      this.setState({
+        error: err.toString(),
+      });
+    }
+  }
 
-	render() {
-		const { error } = this.state;
-		return (
-			<div>
-				<div ref={ref => (this.mountNode = ref)}></div>
-				{error && <PlaygroundError message={error} />}
-			</div>
-		);
-	}
+  render() {
+    const { error } = this.state;
+    return (
+      <div>
+        <div ref={ref => (this.mountNode = ref)}></div>
+        {error && <PlaygroundError message={error} />}
+      </div>
+    );
+  }
 }

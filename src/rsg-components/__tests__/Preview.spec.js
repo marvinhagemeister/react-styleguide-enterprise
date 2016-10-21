@@ -11,18 +11,18 @@ const code = '<button>OK</button>';
 const expect = unexpected.use(unexpectedReact);
 
 describe('Preview', () => {
-	it('should render component renderer', () => {
-		const actual = shallow(
+  it('should render component renderer', () => {
+    const actual = shallow(
 			<Preview
 				code={code}
 				evalInContext={noop}
 				/>
 		);
 
-		expect(actual.node, 'to contain exactly',
+    expect(actual.node, 'to contain exactly',
 			<div>
 				<div></div>
 			</div>
 		);
-	});
+  });
 });

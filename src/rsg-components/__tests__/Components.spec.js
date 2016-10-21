@@ -10,61 +10,61 @@ import ComponentsRenderer from '../ComponentsRenderer';
 const expect = unexpected.use(unexpectedReact);
 
 const components = [
-	{
-		name: 'Foo',
-		pathLine: 'components/foo.js',
-		filepath: 'components/foo.js',
-		props: {
-			description: 'Foo foo',
-		},
-	},
-	{
-		name: 'Bar',
-		pathLine: 'components/bar.js',
-		filepath: 'components/bar.js',
-		props: {
-			description: 'Bar bar',
-		},
-	},
+  {
+    name: 'Foo',
+    pathLine: 'components/foo.js',
+    filepath: 'components/foo.js',
+    props: {
+      description: 'Foo foo',
+    },
+  },
+  {
+    name: 'Bar',
+    pathLine: 'components/bar.js',
+    filepath: 'components/bar.js',
+    props: {
+      description: 'Bar bar',
+    },
+  },
 ];
 
 describe('Component', () => {
-	it('should render components list', () => {
-		const actual = shallow(
+  it('should render components list', () => {
+    const actual = shallow(
 			<Components
 				components={components}
 				sections={[]}
 			/>
 		);
 
-		expect(actual.node, 'to contain',
+    expect(actual.node, 'to contain',
 			<ComponentsRenderer
 				components={[
-					<ReactComponent key={1} component={components[0]} />,
-					<ReactComponent key={2} component={components[1]} />,
-				]}
+  <ReactComponent key={1} component={components[0]} />,
+  <ReactComponent key={2} component={components[1]} />,
+]}
 				sections={<Sections sections={[]} />}
 				/>
 		);
-	});
+  });
 
-	it('renderer should render components list layout', () => {
-		const actual = shallow(
+  it('renderer should render components list layout', () => {
+    const actual = shallow(
 			<ComponentsRenderer
 				components={[
-					<ReactComponent key={1} component={components[0]} />,
-					<ReactComponent key={2} component={components[1]} />,
-				]}
+  <ReactComponent key={1} component={components[0]} />,
+  <ReactComponent key={2} component={components[1]} />,
+]}
 				sections={<Sections sections={[]} />}
 				/>
 		);
 
-		expect(actual.node, 'to contain',
+    expect(actual.node, 'to contain',
 			<div>
 				<ReactComponent component={components[0]} />
 				<ReactComponent component={components[1]} />
 				<Sections sections={[]} />
 			</div>
 		);
-	});
+  });
 });

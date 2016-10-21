@@ -7,12 +7,12 @@ import Wrapper from '../Wrapper';
 const expect = unexpected.use(unexpectedReact);
 
 it('should render children', () => {
-	const children = <span>Hello</span>;
-	const actual = shallow(
-		<Wrapper>{children}</Wrapper>
-	);
+  const children = <span>Hello</span>;
+  const actual = shallow(
+    <Wrapper>{children}</Wrapper>
+  );
 
-	expect(actual.node, 'to contain',
-		children
-	);
+  expect(actual.node, 'to contain',
+    children
+  );
 });

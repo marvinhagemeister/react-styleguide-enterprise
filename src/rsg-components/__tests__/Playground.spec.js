@@ -12,32 +12,32 @@ const code = '<button>OK</button>';
 const noop = () => {};
 
 describe('Playground', () => {
-	it('should render component renderer', () => {
-		const actual = shallow(
+  it('should render component renderer', () => {
+    const actual = shallow(
 			<Playground
 				code={code}
 				evalInContext={noop}
 				/>,
-			{
-				context: {
-					config: {
-						showCode: false,
-					},
-				},
-			}
+      {
+        context: {
+          config: {
+            showCode: false,
+          },
+        },
+      }
 		);
 
-		expect(actual.node, 'to contain',
+    expect(actual.node, 'to contain',
 			<PlaygroundRenderer
 				code={code}
 				showCode={false}
 				evalInContext={noop}
 				/>
 		);
-	});
+  });
 
-	it('renderer should render preview', () => {
-		const actual = shallow(
+  it('renderer should render preview', () => {
+    const actual = shallow(
 			<PlaygroundRenderer
 				code={code}
 				showCode={false}
@@ -45,8 +45,8 @@ describe('Playground', () => {
 				/>
 		);
 
-		expect(actual.node, 'to contain',
+    expect(actual.node, 'to contain',
 			<Preview code={code} />
 		);
-	});
+  });
 });

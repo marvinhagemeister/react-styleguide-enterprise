@@ -1,5 +1,3 @@
-'use strict';
-
 const fs = require('fs');
 const path = require('path');
 const glob = require('glob');
@@ -19,18 +17,18 @@ const toCode = utils.toCode;
  * @returns {string}
  */
 function processComponent(filepath, config) {
-	const nameFallback = getNameFallback(filepath);
-	const examplesFile = config.getExampleFilename(filepath);
-	const componentPath = path.relative(config.configDir, filepath);
+  const nameFallback = getNameFallback(filepath);
+  const examplesFile = config.getExampleFilename(filepath);
+  const componentPath = path.relative(config.configDir, filepath);
 
-	return toCode({
-		filepath: JSON.stringify(filepath),
-		nameFallback: JSON.stringify(nameFallback),
-		pathLine: JSON.stringify(config.getComponentPathLine(componentPath)),
-		module: requireIt(filepath),
-		props: requireIt('!!props!' + filepath),
-		examples: getExamples(examplesFile, nameFallback, config.defaultExample),
-	});
+  return toCode({
+    filepath: JSON.stringify(filepath),
+    nameFallback: JSON.stringify(nameFallback),
+    pathLine: JSON.stringify(config.getComponentPathLine(componentPath)),
+    module: requireIt(filepath),
+    props: requireIt('!!props!' + filepath),
+    examples: getExamples(examplesFile, nameFallback, config.defaultExample),
+  });
 }
 
 /**
@@ -40,8 +38,8 @@ function processComponent(filepath, config) {
  * @returns {string}
  */
 function getNameFallback(filepath) {
-	const filename = path.parse(filepath).name;
-	return filename === 'index' ? path.basename(path.dirname(filepath)) : filename;
+  const filename = path.parse(filepath).name;
+  return filename === 'index' ? path.basename(path.dirname(filepath)) : filename;
 }
 
 /**
@@ -53,15 +51,15 @@ function getNameFallback(filepath) {
  * @returns {string}
  */
 function getExamples(examplesFile, nameFallback, defaultExample) {
-	if (fs.existsSync(examplesFile)) {
-		return requireIt('examples!' + examplesFile);
-	}
+  if (fs.existsSync(examplesFile)) {
+    return requireIt('examples!' + examplesFile);
+  }
 
-	if (defaultExample) {
-		return requireIt('examples?componentName=' + nameFallback + '!' + defaultExample);
-	}
+  if (defaultExample) {
+    return requireIt('examples?componentName=' + nameFallback + '!' + defaultExample);
+  }
 
-	return null;
+  return null;
 }
 
 /**
@@ -72,31 +70,30 @@ function getExamples(examplesFile, nameFallback, defaultExample) {
  * @returns {string}
  */
 function processComponentsSource(components, config) {
-	if (!components) {
-		return null;
-	}
+  if (!components) {
+    return null;
+  }
 
-	let componentFiles;
-	if (typeof components === 'function') {
-		componentFiles = components();
-	}
-	else {
-		componentFiles = glob.sync(path.resolve(config.configDir, components));
-	}
-	componentFiles = componentFiles.map(file => path.resolve(config.configDir, file));
+  let componentFiles;
+  if (typeof components === 'function') {
+    componentFiles = components();
+  } else {
+    componentFiles = glob.sync(path.resolve(config.configDir, components));
+  }
+  componentFiles = componentFiles.map(file => path.resolve(config.configDir, file));
 
-	if (config.verbose) {
-		console.log();
-		console.log('Loading components:');
-		console.log(prettyjson.render(componentFiles));
-		console.log();
-	}
+  if (config.verbose) {
+    console.log();
+    console.log('Loading components:');
+    console.log(prettyjson.render(componentFiles));
+    console.log();
+  }
 
-	if (config.skipComponentsWithoutExample) {
-		componentFiles = componentFiles.filter(filepath => fs.existsSync(config.getExampleFilename(filepath)));
-	}
+  if (config.skipComponentsWithoutExample) {
+    componentFiles = componentFiles.filter(filepath => fs.existsSync(config.getExampleFilename(filepath)));
+  }
 
-	return toCode(componentFiles.map(filepath => processComponent(filepath, config)));
+  return toCode(componentFiles.map(filepath => processComponent(filepath, config)));
 }
 
 /**
@@ -106,12 +103,12 @@ function processComponentsSource(components, config) {
  * @returns {string}
  */
 function processSection(section, config) {
-	return toCode({
-		name: JSON.stringify(section.name),
-		content: (section.content ? requireIt('examples!' + path.resolve(config.configDir, section.content)) : null),
-		components: processComponentsSource(section.components, config),
-		sections: processSectionsList(section.sections, config),
-	});
+  return toCode({
+    name: JSON.stringify(section.name),
+    content: (section.content ? requireIt('examples!' + path.resolve(config.configDir, section.content)) : null),
+    components: processComponentsSource(section.components, config),
+    sections: processSectionsList(section.sections, config),
+  });
 }
 
 /**
@@ -122,31 +119,31 @@ function processSection(section, config) {
  * @returns {string}
  */
 function processSectionsList(sections, config) {
-	if (!sections) {
-		return null;
-	}
+  if (!sections) {
+    return null;
+  }
 
-	return toCode(sections.map(section => processSection(section, config)));
+  return toCode(sections.map(section => processSection(section, config)));
 }
 
-module.exports = function() {};
-module.exports.pitch = function() {
-	if (this.cacheable) {
-		this.cacheable();
-	}
+module.exports = function () { };
+module.exports.pitch = function () {
+  if (this.cacheable) {
+    this.cacheable();
+  }
 
-	const config = this.options.styleguidist;
+  const config = this.options.styleguidist;
 
-	const simplifiedConfig = pick(config, [
-		'title',
-		'highlightTheme',
-		'showCode',
-	]);
+  const simplifiedConfig = pick(config, [
+    'title',
+    'highlightTheme',
+    'showCode',
+  ]);
 
-	const code = toCode({
-		config: JSON.stringify(simplifiedConfig),
-		components: processComponentsSource(config.components, config),
-		sections: processSectionsList(config.sections, config),
-	});
-	return `module.exports = ${code};`;
+  const code = toCode({
+    config: JSON.stringify(simplifiedConfig),
+    components: processComponentsSource(config.components, config),
+    sections: processSectionsList(config.sections, config),
+  });
+  return `module.exports = ${code};`;
 };

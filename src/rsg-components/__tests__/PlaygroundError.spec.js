@@ -7,14 +7,14 @@ import PlaygroundErrorRenderer from '../PlaygroundError';
 const expect = unexpected.use(unexpectedReact);
 
 describe('PlaygroundError', () => {
-	it('renderer should render message', () => {
-		const message = 'Hello *world*!';
-		const actual = shallow(
+  it('renderer should render message', () => {
+    const message = 'Hello *world*!';
+    const actual = shallow(
 			<PlaygroundErrorRenderer message={message} />
 		);
 
-		expect(actual.node, 'to contain',
+    expect(actual.node, 'to contain',
 			<pre>{message}</pre>
 		);
-	});
+  });
 });

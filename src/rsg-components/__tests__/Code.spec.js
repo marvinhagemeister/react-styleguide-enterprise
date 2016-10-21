@@ -7,14 +7,14 @@ import CodeRenderer from '../Code';
 const expect = unexpected.use(unexpectedReact);
 
 describe('Code', () => {
-	it('renderer should render code', () => {
-		const code = '<button>OK</button>';
-		const actual = shallow(
+  it('renderer should render code', () => {
+    const code = '<button>OK</button>';
+    const actual = shallow(
 			<CodeRenderer>{code}</CodeRenderer>
 		);
 
-		expect(actual.node, 'to contain',
+    expect(actual.node, 'to contain',
 			<code>{code}</code>
 		);
-	});
+  });
 });

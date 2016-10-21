@@ -1,5 +1,3 @@
-'use strict';
-
 // Doclet regexp from react-docgen
 const DOCLET_REGEXP = /^@(\w+)(?:$|\s((?:[^](?!^@\w))*))/gmi;
 
@@ -9,5 +7,5 @@ const DOCLET_REGEXP = /^@(\w+)(?:$|\s((?:[^](?!^@\w))*))/gmi;
  * @returns {string}
  */
 module.exports = function removeDoclets(text) {
-	return text.replace(DOCLET_REGEXP, '');
+  return text.replace(DOCLET_REGEXP, '');
 };
