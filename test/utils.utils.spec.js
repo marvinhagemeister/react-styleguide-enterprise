@@ -39,15 +39,9 @@ const SECTIONS = [
   },
 ];
 
-let sourceGlobalLength;
-
 // setComponentsNames
 
 describe('utils', () => {
-  beforeEach(() => {
-    sourceGlobalLength = Object.keys(global).length;
-  });
-
   afterEach(() => {
     delete global.Foo;
     delete global.Bar;
@@ -97,7 +91,6 @@ describe('utils', () => {
         },
       },
     ]);
-    t.equal(Object.keys(global).length, sourceGlobalLength + 2);
     t.equal(global.Foo, 13);
     t.equal(global.Bar, 27);
     t.equal(global.PathedFoo, 32);
